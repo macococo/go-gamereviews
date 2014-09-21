@@ -1,0 +1,8 @@
+{
+  "Port": 8080,
+  "Runmode": "prod",
+  "Datasource":  "gamereviews:gamereviews@tcp(127.0.0.1:3306)/gamereviews?charset=utf8",
+  "MaxIdleConns": 100,
+  "MaxOpenConns": 100,
+  "NewrelicLicense": "4793d595a8704fcf8c031e7032db4cedec7602ea"
+}

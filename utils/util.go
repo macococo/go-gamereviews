@@ -1,7 +1,10 @@
 package utils
 
 import (
+	"crypto/rand"
+	"encoding/base64"
 	"encoding/json"
+	"io"
 	"log"
 	"net/http"
 	"strconv"
@@ -50,4 +53,12 @@ func WriteJsonBytes(w http.ResponseWriter, response []byte) {
 	w.Header()["Content-Type"] = []string{"application/json;charset=UTF-8"}
 	w.WriteHeader(http.StatusOK)
 	w.Write(response)
+}
+
+func GetGUID() string {
+	b := make([]byte, 32)
+	if _, err := io.ReadFull(rand.Reader, b); err != nil {
+		return ""
+	}
+	return base64.URLEncoding.EncodeToString(b)
 }

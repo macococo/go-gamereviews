@@ -16,6 +16,19 @@
 			"ImportPath": "github.com/go-sql-driver/mysql",
 			"Comment": "v1.2-23-g8111ee3",
 			"Rev": "8111ee3ec3cf08037888e77f0e05ec78a8a615b6"
+		},
+		{
+			"ImportPath": "github.com/yvasiyarov/go-metrics",
+			"Rev": "6b08babe701f8de2481c8bc4c2c638d9c5867e41"
+		},
+		{
+			"ImportPath": "github.com/yvasiyarov/gorelic",
+			"Comment": "v0.0.6-6-ged461c0",
+			"Rev": "ed461c0552ffe5e4bee53eb23c0edacc13c82555"
+		},
+		{
+			"ImportPath": "github.com/yvasiyarov/newrelic_platform_go",
+			"Rev": "b21fdbd4370f3717f3bbd2bf41c223bc273068e6"
 		}
 	]
 }
