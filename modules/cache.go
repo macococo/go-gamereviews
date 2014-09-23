@@ -20,8 +20,7 @@ func init() {
 }
 
 func (this *Cache) Get(key string) []byte {
-	item, err := this.client.Get(key)
-	utils.HandleError(err)
+	item, _ := this.client.Get(key)
 
 	if item == nil {
 		if conf.IsDev() {
@@ -44,5 +43,23 @@ func (this *Cache) Put(key string, value []byte) {
 	if conf.IsDev() {
 		log.Println("cache put:", key)
 	}
+}
 
+func (this *Cache) Delete(key string) {
+	this.client.Delete(key)
+
+	if conf.IsDev() {
+		log.Println("cache delete:", key)
+	}
+}
+
+func (this *Cache) Increment(key string, delta uint64) uint64 {
+	newValue, err := this.client.Increment(key, delta)
+	utils.HandleError(err)
+
+	if conf.IsDev() {
+		log.Println("cache increment:", key, delta)
+	}
+
+	return newValue
 }

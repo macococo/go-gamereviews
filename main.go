@@ -41,6 +41,8 @@ func initRouter() {
 
 	http.HandleFunc("/api/user/list", wrapController(controllers.UserListController))
 	http.HandleFunc("/api/user/create", wrapController(controllers.UserCreateController))
+	http.HandleFunc("/api/chatroom/list", wrapController(controllers.ChatroomListController))
+	http.HandleFunc("/api/chatroom/create", wrapController(controllers.ChatroomCreateController))
 
 	log.Println("HTTP listen port:", port)
 	http.ListenAndServe(":"+strconv.Itoa(port), nil)

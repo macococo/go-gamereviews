@@ -45,6 +45,11 @@ func ToJsonBytes(v interface{}) []byte {
 	return content
 }
 
+func FromJsonBytes(data []byte, v interface{}) {
+	err := json.Unmarshal(data, v)
+	HandleError(err)
+}
+
 func WriteJson(w http.ResponseWriter, response interface{}) {
 	WriteJsonBytes(w, ToJsonBytes(response))
 }

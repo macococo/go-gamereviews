@@ -34,5 +34,9 @@ func init() {
 		DbMap.TraceOn("", log.New(os.Stdout, "", log.Lmicroseconds))
 	}
 
+	// Define table metadata
+	new(UserManager).AddTable()
+	new(ChatroomManager).AddTable()
+
 	utils.HandleError(DbMap.CreateTablesIfNotExists())
 }
