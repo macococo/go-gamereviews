@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/bmizerany/pat"
 	"github.com/macococo/go-gamereviews/conf"
 	"github.com/macococo/go-gamereviews/controllers"
 	"github.com/yvasiyarov/go-metrics"
@@ -39,10 +40,17 @@ func wrapController(f func(http.ResponseWriter, *http.Request)) func(http.Respon
 func initRouter() {
 	port := conf.Config.Port
 
-	http.HandleFunc("/api/user/list", wrapController(controllers.UserListController))
-	http.HandleFunc("/api/user/create", wrapController(controllers.UserCreateController))
-	http.HandleFunc("/api/chatroom/list", wrapController(controllers.ChatroomListController))
-	http.HandleFunc("/api/chatroom/create", wrapController(controllers.ChatroomCreateController))
+	m := pat.New()
+	m.Get("/api/user/list", http.HandlerFunc(wrapController(controllers.UserListController)))
+	m.Get("/api/user/create", http.HandlerFunc(wrapController(controllers.UserCreateController)))
+	m.Get("/api/chatroom/list", http.HandlerFunc(wrapController(controllers.ChatroomListController)))
+	m.Get("/api/chatroom/create", http.HandlerFunc(wrapController(controllers.ChatroomCreateController)))
+	m.Get("/routing/:name/:id", http.HandlerFunc(wrapController(controllers.RoutingController)))
+	http.Handle("/", m)
+	// http.HandleFunc("/api/user/list", wrapController(controllers.UserListController))
+	// http.HandleFunc("/api/user/create", wrapController(controllers.UserCreateController))
+	// http.HandleFunc("/api/chatroom/list", wrapController(controllers.ChatroomListController))
+	// http.HandleFunc("/api/chatroom/create", wrapController(controllers.ChatroomCreateController))
 
 	log.Println("HTTP listen port:", port)
 	http.ListenAndServe(":"+strconv.Itoa(port), nil)
