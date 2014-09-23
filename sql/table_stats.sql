@@ -2,7 +2,7 @@ CREATE TABLE table_stats (
 	table_name varchar(64),
 	cnt int(11),
 	PRIMARY KEY (table_name)
-)
+);
 
 REPLACE INTO table_stats VALUES('t_chatroom', (select count(*) from t_chatroom));
 
