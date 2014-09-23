@@ -1,7 +1,6 @@
 package models
 
 import (
-	"github.com/macococo/go-gamereviews/modules"
 	"github.com/macococo/go-gamereviews/utils"
 	"strconv"
 	"time"
@@ -11,6 +10,7 @@ type Chatroom struct {
 	Id          int
 	Code        string
 	MaxMembers  int
+	Locked      bool
 	EndDatetime *time.Time
 	Model
 }
@@ -26,34 +26,37 @@ func (this *ChatroomManager) ListCacheKey(page int) string {
 	return "chatroom_list_" + strconv.Itoa(page)
 }
 
-func (this *ChatroomManager) CountCacheKey() string {
-	return "chatroom_count"
-}
+// func (this *ChatroomManager) CountCacheKey() string {
+// 	return "chatroom_count"
+// }
 
 func (this *ChatroomManager) AddTable() {
 	DbMap.AddTableWithName(Chatroom{}, this.TableName()).SetKeys(true, "Id").ColMap("Code").SetNotNull(true)
 }
 
 func (this *ChatroomManager) Count() int64 {
-	return this.stats().Count
+	count, err := DbMap.SelectInt("SELECT cnt FROM table_stats WHERE table_name = ?", this.TableName())
+	utils.HandleError(err)
+
+	return count
 }
 
-func (this *ChatroomManager) stats() (stats *ModelStats) {
-	countKey := this.CountCacheKey()
-	json := modules.AppCache.Get(countKey)
-	if json == nil {
-		count, err := DbMap.SelectInt("SELECT count(*) FROM " + this.TableName())
-		utils.HandleError(err)
+// func (this *ChatroomManager) stats() (stats *ModelStats) {
+// 	countKey := this.CountCacheKey()
+// 	json := modules.AppCache.Get(countKey)
+// 	if json == nil {
+// 		count, err := DbMap.SelectInt("SELECT count(*) FROM " + this.TableName())
+// 		utils.HandleError(err)
 
-		stats = &ModelStats{Count: count}
-		modules.AppCache.Put(countKey, utils.ToJsonBytes(&stats))
-	} else {
-		stats = &ModelStats{}
-		utils.FromJsonBytes(json, &stats)
-	}
+// 		stats = &ModelStats{Count: count}
+// 		modules.AppCache.Put(countKey, utils.ToJsonBytes(&stats))
+// 	} else {
+// 		stats = &ModelStats{}
+// 		utils.FromJsonBytes(json, &stats)
+// 	}
 
-	return stats
-}
+// 	return stats
+// }
 
 func (this *ChatroomManager) Find(pagination *Pagination) []*Chatroom {
 	var chatrooms []*Chatroom
@@ -65,7 +68,7 @@ func (this *ChatroomManager) Find(pagination *Pagination) []*Chatroom {
 
 func (this *ChatroomManager) Create(chatroom *Chatroom) *Chatroom {
 	utils.HandleError(DbMap.Insert(chatroom))
-	modules.AppCache.Delete(this.CountCacheKey())
+	// modules.AppCache.Delete(this.CountCacheKey())
 
 	return chatroom
 }
