@@ -13,6 +13,7 @@ type AppConfig struct {
 	MaxIdleConns    int
 	MaxOpenConns    int
 	NewrelicLicense string
+	MemcachedServer string
 }
 
 type RunmodeEnums struct {

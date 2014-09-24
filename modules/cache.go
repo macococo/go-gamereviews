@@ -16,11 +16,17 @@ type Cache struct {
 }
 
 func init() {
-	AppCache = &Cache{client: memcache.New("127.0.0.1:11211")}
+	server := conf.Config.MemcachedServer
+	log.Println("memcached:", server)
+
+	AppCache = &Cache{client: memcache.New(server)}
 }
 
 func (this *Cache) Get(key string) []byte {
-	item, _ := this.client.Get(key)
+	item, err := this.client.Get(key)
+	if conf.IsDev() {
+		utils.HandleError(err)
+	}
 
 	if item == nil {
 		if conf.IsDev() {
