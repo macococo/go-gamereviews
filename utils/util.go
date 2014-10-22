@@ -10,6 +10,11 @@ import (
 	"strconv"
 )
 
+// handle error object.
+//
+// Example:
+//  obj, err = doSomething()
+//  HandleError(err)
 func HandleError(err error) error {
 	if err != nil {
 		log.Println(err)

@@ -1,3 +1,5 @@
+// GameReview Service Sample。
+// hogehoge
 package main
 
 import (
